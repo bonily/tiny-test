@@ -1,0 +1,29 @@
+.comic-strips__item {
+  display: flex;
+  align-items: center;
+  min-height: 200px;
+}
+
+.comic-strips__item-pic {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+
+  animation: animate_pic 2s ease-in-out;
+  animation-fill-mode: forwards;
+
+  cursor: pointer;
+}
+
+@keyframes animate_pic {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
