@@ -1,7 +1,8 @@
 import "./ComicStripItem.css";
-import React, { useEffect, useRef } from "react";
-import xhr from "../../xhr";
+import React, { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
+
+import ComicStripFullItem from "./ComicStripFullInfo";
 
 export interface Strip {
   alt: string;
@@ -20,9 +21,12 @@ export interface Strip {
 export interface Props {
   index: number;
   strip: Strip | undefined;
+  onItemClick: (item: Strip | undefined) => void;
 }
 
-const ComicStripBlock: React.FC<Props> = ({ index, strip }) => {
+const ComicStripItem: React.FC<Props> = ({ index, strip, onItemClick }) => {
+  const [openFullItem, setOpenFullItem] = useState(false);
+
   const { ref, inView } = useInView({
     /* Optional options */
     threshold: 1,
@@ -35,18 +39,6 @@ const ComicStripBlock: React.FC<Props> = ({ index, strip }) => {
   useEffect(() => {
     inView && imgRef && imgRef.current?.setAttribute("src", strip?.img || "");
   }, [inView, strip]);
-  // const [strip, setStrip] = React.useState<Strip | null>(null);
-
-  // useEffect(() => {
-  //   fetchStrip(stripId);
-  // }, [stripId]);
-
-  // const fetchStrip = (id: number) => {
-  //   xhr.get(`/${id}/info.0.json`).then((res: Strip) => {
-  //     console.log(res);
-  //     setStrip(res);
-  //   });
-  // };
 
   return (
     <div className="comic-strips__item" ref={ref}>
@@ -58,9 +50,10 @@ const ComicStripBlock: React.FC<Props> = ({ index, strip }) => {
         alt={strip?.alt || "Не удалось загрузить картинку"}
         style={{ animationDelay: `${index * 0.5}s` }}
         loading="lazy"
+        onClick={() => onItemClick(strip)}
       />
     </div>
   );
 };
 
-export default ComicStripBlock;
+export default ComicStripItem;

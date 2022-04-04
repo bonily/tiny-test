@@ -1,9 +1,12 @@
 import "./ComicStripsList.css";
 import React, { useCallback, useEffect, useState } from "react";
-import ComicStripBlock from "../ComicStripsList/ComicStripsBlock";
+import ComicStripItem from "./ComicStripsBlock/ComicStripItem";
 
 import xhr from "../xhr";
-import { Strip } from "./ComicStripsBlock/ComicStripBlock";
+
+import Loading from "../Loading";
+import { Strip } from "./ComicStripsBlock/ComicStripItem";
+import ComicStripFullItem from "./ComicStripsBlock/ComicStripFullInfo";
 
 export interface Props {
   stripIds: number[];
@@ -12,21 +15,17 @@ export interface Props {
 
 const ComicStripsList: React.FC<Props> = ({ stripIds, reloadStripIds }) => {
   const [strips, setStrips] = useState<Array<Strip | undefined>>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [fillStripInfo, setFillStripInfo] = useState<Strip | undefined>(
+    undefined
+  );
 
-  const fetchStrips = useCallback((ids: number[]) => {
-    let result: Array<Strip | undefined> = [];
-    const fetchData = async () => {
-      setLoading(true);
-
-      for (const id of ids) {
-        const comic = await fetchStrip(id);
-        result.push(comic);
-      }
-      setStrips(result);
-      setLoading(false);
-    };
-    fetchData();
+  const fetchStrips = useCallback(async (ids: number[]) => {
+    const promises = ids.map((id) => fetchStrip(id));
+    setLoading(true);
+    const result = await Promise.all(promises);
+    setStrips(result);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -40,17 +39,30 @@ const ComicStripsList: React.FC<Props> = ({ stripIds, reloadStripIds }) => {
     return strip || undefined;
   };
 
-  return (
-    <div className="comic-strips__list">
-      {loading ? (
-        <p>Loading</p>
-      ) : (
-        <>
-          {strips.map((strip, i) => (
-            <ComicStripBlock strip={strip} key={strip?.num || i} index={i} />
-          ))}
-          <button onClick={reloadStripIds}>RELOAD</button>
-        </>
+  const onItemClick = (item: Strip | undefined) => {
+    setFillStripInfo(item);
+  };
+
+  return loading ? (
+    <Loading />
+  ) : (
+    <div>
+      <div className="comic-strips__list">
+        {strips.map((strip, i) => (
+          <ComicStripItem
+            strip={strip}
+            key={strip?.num || i}
+            index={i}
+            onItemClick={onItemClick}
+          />
+        ))}
+      </div>
+      <button onClick={reloadStripIds}>RELOAD</button>
+      {fillStripInfo && (
+        <ComicStripFullItem
+          strip={fillStripInfo}
+          onClose={() => onItemClick(undefined)}
+        />
       )}
     </div>
   );

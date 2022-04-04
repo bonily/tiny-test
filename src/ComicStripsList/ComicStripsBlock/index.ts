@@ -1,1 +1,1 @@
-export { default } from "./ComicStripBlock";
+export { default } from "./ComicStripItem";
