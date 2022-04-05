@@ -1,8 +1,6 @@
 import "./ComicStripItem.css";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
-
-import ComicStripFullItem from "./ComicStripFullInfo";
 
 export interface Strip {
   alt: string;
@@ -25,8 +23,6 @@ export interface Props {
 }
 
 const ComicStripItem: React.FC<Props> = ({ index, strip, onItemClick }) => {
-  const [openFullItem, setOpenFullItem] = useState(false);
-
   const { ref, inView } = useInView({
     /* Optional options */
     threshold: 1,

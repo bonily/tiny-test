@@ -20,6 +20,7 @@
 }
 
 .comic-strips__full-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -34,6 +35,27 @@
   box-sizing: border-box;
 }
 
+.comic-strips__full-item-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 24px;
+  height: 24px;
+
+  font-size: 0;
+
+  opacity: 0.5;
+
+  background-color: transparent;
+  background-image: url("./close-button.svg");
+  border: none;
+  cursor: pointer;
+}
+
+.comic-strips__full-item-close:hover {
+  opacity: 1;
+}
+
 .comic-strips__full-item-info-wrapper {
   display: flex;
   flex-direction: row;
@@ -44,7 +66,8 @@
 
 .comic-strips__full-item-info--title {
   font-size: 18px;
-  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .comic-strips__full-item-pic-wrapper {

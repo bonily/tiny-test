@@ -21,3 +21,30 @@
     grid-template-rows: auto;
   }
 }
+
+.comic-strips__list-reload {
+  width: 20vw;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 15px;
+
+  opacity: 0;
+
+  animation: animate_button 2s ease-in-out;
+  animation-fill-mode: forwards;
+
+  cursor: pointer;
+}
+
+.comic-strips__list-reload:hover {
+  background-color: white;
+}
+
+@keyframes animate_button {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

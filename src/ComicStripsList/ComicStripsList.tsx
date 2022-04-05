@@ -1,12 +1,12 @@
 import "./ComicStripsList.css";
 import React, { useCallback, useEffect, useState } from "react";
-import ComicStripItem from "./ComicStripsBlock/ComicStripItem";
 
 import xhr from "../xhr";
 
 import Loading from "../Loading";
-import { Strip } from "./ComicStripsBlock/ComicStripItem";
-import ComicStripFullItem from "./ComicStripsBlock/ComicStripFullInfo";
+import ComicStripFullItem from "./ComicStripFullInfo";
+import ComicStripItem from "./ComicStripsItem";
+import { Strip } from "./ComicStripsItem/ComicStripItem";
 
 export interface Props {
   stripIds: number[];
@@ -57,7 +57,13 @@ const ComicStripsList: React.FC<Props> = ({ stripIds, reloadStripIds }) => {
           />
         ))}
       </div>
-      <button onClick={reloadStripIds}>RELOAD</button>
+      <button
+        className="comic-strips__list-reload"
+        onClick={reloadStripIds}
+        style={{ animationDelay: `${strips.map.length}s` }}
+      >
+        RELOAD
+      </button>
       {fillStripInfo && (
         <ComicStripFullItem
           strip={fillStripInfo}
