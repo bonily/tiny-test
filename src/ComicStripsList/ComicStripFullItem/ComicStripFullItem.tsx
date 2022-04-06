@@ -7,8 +7,8 @@ export interface Props {
   onClose: () => void;
 }
 
-const ComicStripFullItem: React.FC<Props> = ({ strip, onClose }) => {
-  const { img, transcript, day, month, year, title, num } = strip;
+const ComicStripFullItem: React.VFC<Props> = ({ strip, onClose }) => {
+  const { img, transcript, day, month, year, title, num, alt } = strip;
 
   useEffect(() => {
     function handleEscapeKey(event: KeyboardEvent) {
@@ -39,7 +39,7 @@ const ComicStripFullItem: React.FC<Props> = ({ strip, onClose }) => {
             width="700px"
             src={img}
             className="comic-strips__full-item-pic"
-            alt={strip.alt}
+            alt={alt}
           />
         </div>
         <span className="comic-strips__full-item-info">{transcript}</span>

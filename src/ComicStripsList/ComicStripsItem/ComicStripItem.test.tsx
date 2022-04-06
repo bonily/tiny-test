@@ -4,10 +4,6 @@ import userEvent from "@testing-library/user-event";
 
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils";
 
-export const noop = (): void => {
-  // do nothing
-};
-
 const TEST_STRIP = {
   alt: '"The Amazing Spider-',
   day: "7",
@@ -22,20 +18,29 @@ const TEST_STRIP = {
   year: "2019",
 };
 
-test("render strip img", async () => {
-  render(<ComicStripItem strip={TEST_STRIP} index={25} onItemClick={noop} />);
-  mockAllIsIntersecting(true);
-  const img = screen.getByAltText(TEST_STRIP.alt);
-  expect(img).toBeInTheDocument();
-});
+describe("<ComicStripItem />", () => {
+  it("should render strip img", async () => {
+    render(
+      <ComicStripItem strip={TEST_STRIP} index={25} onItemClick={jest.fn()} />
+    );
+    mockAllIsIntersecting(true);
 
-test("click strip img", async () => {
-  const onItemClick = jest.fn();
-  render(
-    <ComicStripItem strip={TEST_STRIP} index={25} onItemClick={onItemClick} />
-  );
-  mockAllIsIntersecting(true);
-  const img = screen.getByAltText(TEST_STRIP.alt);
-  userEvent.click(img);
-  expect(onItemClick).toHaveBeenCalledTimes(1);
+    const img = screen.getByAltText(TEST_STRIP.alt);
+
+    expect(img).toBeInTheDocument();
+  });
+
+  test("should call onItemClick on img click", async () => {
+    const onItemClick = jest.fn();
+    render(
+      <ComicStripItem strip={TEST_STRIP} index={25} onItemClick={onItemClick} />
+    );
+    mockAllIsIntersecting(true);
+
+    const img = screen.getByAltText(TEST_STRIP.alt);
+
+    userEvent.click(img);
+
+    expect(onItemClick).toHaveBeenCalledTimes(1);
+  });
 });
