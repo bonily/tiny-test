@@ -37,5 +37,5 @@ test("click strip img", async () => {
   mockAllIsIntersecting(true);
   const img = screen.getByAltText(TEST_STRIP.alt);
   userEvent.click(img);
-  expect(onItemClick).toBeCalled();
+  expect(onItemClick).toHaveBeenCalledTimes(1);
 });

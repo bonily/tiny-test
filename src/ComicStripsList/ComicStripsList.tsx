@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import xhr from "../xhr";
 
 import Loading from "../Loading";
-import ComicStripFullItem from "./ComicStripFullInfo";
+import ComicStripFullItem from "./ComicStripFullItem";
 import ComicStripItem from "./ComicStripsItem";
 import { Strip } from "./ComicStripsItem/ComicStripItem";
 
